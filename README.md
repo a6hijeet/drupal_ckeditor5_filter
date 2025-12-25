@@ -110,13 +110,13 @@ If loading="eager" is already present, it is left as-is.
 
 Input:
 ```bash
-&lt;img src="/example.jpg"&gt;  
-&lt;iframe src="https://example.com"&gt;&lt;/iframe&gt;
+<img src="/example.jpg">
+<iframe src="https://example.com"></iframe>
 ```
 Output:
 ```bash
-&lt;img src="/example.jpg" loading="lazy"&gt;  
-&lt;iframe src="https://example.com" loading="lazy"&gt;&lt;/iframe&gt;
+<img src="/example.jpg" loading="lazy">
+<iframe src="https://example.com" loading="lazy"></iframe>
 ```
 Unchanged example:
 ```bash
