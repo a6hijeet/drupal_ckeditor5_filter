@@ -1,0 +1,9 @@
+name: Drupal CKEditor5 Filter
+type: module
+description: 'Filters text content in preparation for display.'
+package: Custom
+version: VERSION
+configure: filter.admin_overview
+core_version_requirement: ^11
+dependencies:
+  - drupal:user
