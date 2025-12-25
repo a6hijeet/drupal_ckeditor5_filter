@@ -128,7 +128,6 @@ loading="eager"
 
 - Drupal 11 (tested)
 - CKEditor 5
-- Works with Media Library
 
 ---
 
