@@ -85,7 +85,7 @@ Then:
 1. Scroll to Filters
 2. Enable:
 
-Lazy load iframes and images
+    - Lazy load iframes and images
 
 3. Save
 
