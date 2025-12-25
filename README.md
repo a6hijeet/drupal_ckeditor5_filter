@@ -135,12 +135,7 @@ loading="eager"
 
 Instead of adding loading="lazy", you can also control loading manually.
 
-You can store the real URL in **data-src** and replace it with JavaScript when you want to load it:
-
-Example idea:
-
-- Browser first sees a lightweight placeholder
-- When the element becomes visible, JS copies data-src → src
+You can store the real URL in **data-src** and replace it with JavaScript when you want to load it.
 
 Updated version — convert src → data-src (for JavaScript-controlled lazy loading)
 
