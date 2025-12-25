@@ -52,7 +52,7 @@ To avoid conflicts:
 2. Edit each text format
 3. Uncheck:
 
-Lazy-load images
+    - Lazy-load images
 
 This module replaces that behavior.
 
@@ -130,6 +130,78 @@ loading="eager"
 - CKEditor 5
 
 ---
+
+## Optional: Using data-src + JavaScript (alternative approach)
+
+Instead of adding loading="lazy", you can also control loading manually.
+
+You can store the real URL in **data-src** and replace it with JavaScript when you want to load it:
+
+Example idea:
+
+- Browser first sees a lightweight placeholder
+- When the element becomes visible, JS copies data-src → src
+
+Updated version — convert src → data-src (for JavaScript-controlled lazy loading)
+
+This version moves the real URL into data-src so loading can be handled fully by JavaScript.
+
+```php
+$dom = Html::load($text);
+$xpath = new \DOMXPath($dom);
+
+// Handle <img>
+foreach ($xpath->query('//img[not(@loading="eager")]') as $element) {
+  assert($element instanceof \DOMElement);
+
+  $src = $element->getAttribute('src');
+
+  if ($src && !$element->getAttribute('data-src')) {
+    $element->setAttribute('data-src', $src);
+    $element->removeAttribute('src'); // optional — or set placeholder
+  }
+}
+
+// Handle <iframe>
+foreach ($xpath->query('//iframe[not(@loading="eager")]') as $element) {
+  assert($element instanceof \DOMElement);
+
+  $src = $element->getAttribute('src');
+
+  if ($src && !$element->getAttribute('data-src')) {
+    $element->setAttribute('data-src', $src);
+    $element->removeAttribute('src');
+  }
+}
+
+return Html::serialize($dom);
+
+```
+
+
+You can then pair this with JavaScript to load elements only when they become visible:
+
+```javascript
+// Lazy-load any element with data-src when it enters the viewport
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+
+    const el = entry.target;
+    const realSrc = el.getAttribute("data-src");
+
+    if (realSrc) {
+      el.setAttribute("src", realSrc);
+      el.removeAttribute("data-src");
+    }
+
+    observer.unobserve(el);
+  });
+});
+
+// Attach to all images/iframes that use data-src
+document.querySelectorAll("[data-src]").forEach(el => observer.observe(el));
+```
 
 ## Contributing
 
